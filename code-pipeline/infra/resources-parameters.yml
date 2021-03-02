@@ -1,0 +1,8 @@
+---
+Resources:
+  GithubToKenParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: ${self:custom.github-aut-name}
+      Type: String
+      Value: ${self:custom.github-aut-token}

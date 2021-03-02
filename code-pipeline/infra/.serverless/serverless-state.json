@@ -1,0 +1,355 @@
+{
+  "service": {
+    "service": "servername",
+    "serviceObject": {
+      "name": "servername"
+    },
+    "provider": {
+      "name": "aws",
+      "stage": "dev",
+      "region": "us-east-1",
+      "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "GithubToKenParameter": {
+            "Type": "AWS::SSM::Parameter",
+            "Properties": {
+              "Name": "devops-github-token",
+              "Type": "String",
+              "Value": "test"
+            }
+          },
+          "ArtifactsBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "s3-stack-test-bucket-pipeline-demo-dev",
+              "AccessControl": "BucketOwnerFullControl",
+              "Tags": [
+                {
+                  "Key": "process",
+                  "Value": "pipeline-bucket"
+                }
+              ]
+            }
+          },
+          "CodeBuildProjectBuild": {
+            "Type": "AWS::CodeBuild::Project",
+            "Properties": {
+              "Name": "servername-CodeBuildProjectBuild-dev",
+              "ServiceRole": {
+                "Fn::ImportValue": "CodeBuildExcecutionRole"
+              },
+              "Artifacts": {
+                "Type": "CODEPIPELINE"
+              },
+              "BadgeEnabled": false,
+              "Environment": {
+                "Type": "LINUX_CONTAINER",
+                "ComputeType": "BUILD_GENERAL1_SMALL",
+                "Image": "aws/codebuild/nodejs:10.14.1",
+                "PrivilegedMode": true
+              },
+              "Source": {
+                "Type": "CODEPIPELINE",
+                "BuildSpec": "buildspec.yml"
+              },
+              "TimeoutInMinutes": 30,
+              "Tags": [
+                {
+                  "Key": "managed-by",
+                  "Value": "serverless"
+                }
+              ]
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        },
+        "Conditions": {
+          "IsStgCondition": {
+            "Fn::Equals": [
+              "dev",
+              "stg"
+            ]
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      }
+    },
+    "custom": {
+      "service": "servername",
+      "repo-owner": "repofake",
+      "github-aut-name": "devops-github-token",
+      "github-aut-token": "test",
+      "bucket-deployment-name": "s3-stack-test-bucket-pipeline-demo-dev",
+      "codebuild-excecution-role": {
+        "Fn::ImportValue": "CodeBuildExcecutionRole"
+      },
+      "config": {
+        "dev": {
+          "accout-id": "${AWS::AccountId}"
+        },
+        "stg": {
+          "accout-id": "${AWS::AccountId}"
+        },
+        "prd": {
+          "accout-id": "${AWS::AccountId}"
+        }
+      }
+    },
+    "plugins": [
+      "serverless-pseudo-parameters",
+      "serverless-s3-remover"
+    ],
+    "pluginsData": {},
+    "functions": {},
+    "resources": {
+      "Conditions": {
+        "IsStgCondition": {
+          "Fn::Equals": [
+            "dev",
+            "stg"
+          ]
+        }
+      },
+      "Resources": {
+        "GithubToKenParameter": {
+          "Type": "AWS::SSM::Parameter",
+          "Properties": {
+            "Name": "devops-github-token",
+            "Type": "String",
+            "Value": "test"
+          }
+        },
+        "ArtifactsBucket": {
+          "Type": "AWS::S3::Bucket",
+          "Properties": {
+            "BucketName": "s3-stack-test-bucket-pipeline-demo-dev",
+            "AccessControl": "BucketOwnerFullControl",
+            "Tags": [
+              {
+                "Key": "process",
+                "Value": "pipeline-bucket"
+              }
+            ]
+          }
+        },
+        "CodeBuildProjectBuild": {
+          "Type": "AWS::CodeBuild::Project",
+          "Properties": {
+            "Name": "servername-CodeBuildProjectBuild-dev",
+            "ServiceRole": {
+              "Fn::ImportValue": "CodeBuildExcecutionRole"
+            },
+            "Artifacts": {
+              "Type": "CODEPIPELINE"
+            },
+            "BadgeEnabled": false,
+            "Environment": {
+              "Type": "LINUX_CONTAINER",
+              "ComputeType": "BUILD_GENERAL1_SMALL",
+              "Image": "aws/codebuild/nodejs:10.14.1",
+              "PrivilegedMode": true
+            },
+            "Source": {
+              "Type": "CODEPIPELINE",
+              "BuildSpec": "buildspec.yml"
+            },
+            "TimeoutInMinutes": 30,
+            "Tags": [
+              {
+                "Key": "managed-by",
+                "Value": "serverless"
+              }
+            ]
+          }
+        }
+      },
+      "Outputs": {}
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless.yaml",
+    "layers": {},
+    "initialServerlessConfig": {
+      "service": {
+        "$ref": "$[\"service\"][\"serviceObject\"]"
+      },
+      "variablesResolutionMode": "20210219",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
+      "custom": {
+        "$ref": "$[\"service\"][\"custom\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "isDashboardMonitoringPreconfigured": false
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/servername/dev/1614710159650-2021-03-02T18:35:59.650Z",
+    "artifact": ""
+  }
+}

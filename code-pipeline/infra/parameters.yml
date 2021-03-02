@@ -1,0 +1,14 @@
+service: servername
+repo-owner: ${opt:repo-owner,'repofake'}
+github-aut-name: devops-github-token
+github-aut-token: ${opt:token-value,ssm:devops-github-token}
+bucket-deployment-name: s3-stack-test-bucket-pipeline-demo-${self:provider.stage}
+codebuild-excecution-role: 
+  Fn::ImportValue: CodeBuildExcecutionRole
+config:
+  dev:
+    accout-id: ${AWS::AccountId}
+  stg:
+    accout-id: ${AWS::AccountId}
+  prd:
+    accout-id: ${AWS::AccountId}

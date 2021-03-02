@@ -1,0 +1,44 @@
+---
+
+Resources:
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: ${self:custom.service}-Pipeline-${self:provider.stage}
+      RoleArn: 
+       -
+      ArtifactStore:
+        Type: S3
+        Location: 
+      Stages: 
+        - 
+          Name: name
+          Actions:
+            - actions
+          Blockers:
+            - blockers
+      RestartExecutionOnUpdate: true | false
+      DisableInboundStageTransitions: 
+#    Properties:
+#      Name: ${self:custom.service}-CodeBuildProjectBuild-${self:provider.stage}
+#      ServiceRole: arn:aws:iam::184890908123:role/CodeBuildRole  
+#      Artifacts: 
+#        Type: CODEPIPELINE
+#      BadgeEnabled: false
+#      Environment:
+#        Type: LINUX_CONTAINER
+#        ComputeType: BUILD_GENERAL1_SMALL
+#        Image: aws/codebuild/nodejs:10.14.1
+#        PrivilegedMode: true
+##        EnvironmentVariables:
+##        - Name: STAGE
+##          Type: PLAINTEXT
+##          value: ${self:provider.stage}
+#      Source:
+#        Type: CODEPIPELINE
+#        BuildSpec: buildspec.yml
+#      TimeoutInMinutes: 30
+#      Tags:
+#      - Key: managed-by
+#        Value: serverless
+#

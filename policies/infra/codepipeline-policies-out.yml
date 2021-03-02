@@ -1,0 +1,10 @@
+Outputs:
+  CodeBuildExcecutionRole:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt: 
+      - CodeBuildExcecutionRole
+      - Arn
+    Export:
+      Name: CodeBuildExcecutionRole
+

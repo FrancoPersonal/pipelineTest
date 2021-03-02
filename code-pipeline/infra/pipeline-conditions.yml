@@ -1,0 +1,7 @@
+---
+
+Conditions:
+  IsStgCondition:
+    Fn::Equals:
+    - ${self:provider.stage}
+    - stg

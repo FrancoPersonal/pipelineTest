@@ -1,0 +1,24 @@
+---
+service: ${self:custom.service}
+variablesResolutionMode: 20210219
+
+provider: 
+  name: aws
+  stage: ${opt:env}
+  region: us-east-1
+  
+
+plugins:
+  - serverless-pseudo-parameters
+  - serverless-s3-remover
+
+custom:
+  ${file(parameters.yml)}
+
+resources:
+- ${file(pipeline-conditions.yml)}
+- ${file(resources-parameters.yml)}
+- ${file(pipeline-bucket.yml)}
+- ${file(pipeline-codebuild.yml)}
+# - ${file(pipeline-pipeline.yml)}
+
