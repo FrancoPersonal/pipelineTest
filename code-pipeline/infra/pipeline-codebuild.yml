@@ -17,7 +17,7 @@ Resources:
         PrivilegedMode: true
       Source:
         Type: CODEPIPELINE
-      BuildSpec: buildspec.yml
+        BuildSpec: buildspec.yml
       TimeoutInMinutes: 30
       Tags:
       - Key: managed-by
