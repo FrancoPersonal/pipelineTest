@@ -32,10 +32,7 @@ bld/
 [Ll]ogs/
 
 # serverless cache directory
-/.serverless
-**/.serverless
-/node_modules
-**/node_modules
+.serverless/
 package-lock.json
 # Visual Studio 2015/2017 cache/options directory
 .vs/
