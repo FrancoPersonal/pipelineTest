@@ -20,5 +20,6 @@ custom:
   ${file(parameters.yml)}
 
 resources:
-- ${file(codepipeline-policies.yml)}
+- ${file(codepipeline-policies-codebuild.yml)}
+- ${file(codepipeline-policies-codepipeline.yml)}
 - ${file(codepipeline-policies-out.yml)}
