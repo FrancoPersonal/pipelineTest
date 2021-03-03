@@ -1,10 +1,11 @@
-boolean:
-   true: true
-   false: false
+#boolean:
+#   true: true
+#   false: false
 remover:
   buckets:
   - ${self:custom.bucket-deployment-name} 
-  prompt: ${self:custom.boolean.${opt:s3-remover-prompt, 'true'}}
+  - ${self:custom.bucket-deploymentself-name}
+#  prompt: ${self:custom.boolean.${opt:s3-remover-prompt, 'true'}}
 service: ${self:custom.bussines-owner}-pipelinedemo
 repo-owner: ${opt:repo-owner,'ownerfake'}
 repo-name: ${opt:repo-name,'repofake'}
@@ -12,6 +13,8 @@ bussines-owner: ${opt:bussines-owner,'franc'}
 github-aut-name: devops-github-token
 github-aut-token: ${opt:token-value,ssm:devops-github-token}
 bucket-deployment-name: ${self:custom.service}-s3-${self:provider.stage}
+bucket-deploymentself-name: ${self:custom.service}-deploymentbucket-${self:provider.stage}
+
 codebuild-excecution-role: 
   Fn::ImportValue: CodeBuildExcecutionRole
 config:

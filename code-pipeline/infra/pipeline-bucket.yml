@@ -6,8 +6,6 @@ Resources:
    Properties:
      BucketName: ${self:custom.bucket-deployment-name} 
      AccessControl: BucketOwnerFullControl
-     VersioningConfiguration:
-       Status: Enabled
      Tags:
        - Key: process
          Value: pipeline-bucket
