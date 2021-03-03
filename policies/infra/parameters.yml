@@ -1,8 +1,8 @@
-service: policies
 repo-owner: ${opt:repo-owner,'repofake'}
+service: ${self:custom.repo-owner}-policies
 github-aut-name: devops-github-token
 github-aut-token: ${opt:token-value,ssm:devops-github-token}
-bucket-deployment-name: s3-stack-test-bucket-pipeline-demo-${self:provider.stage}
+bucket-deployment-name: ${self:custom.service}-s3-${self:provider.stage}
 config:
   dev:
     accout-id: ${AWS::AccountId}

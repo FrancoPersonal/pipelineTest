@@ -1,15 +1,15 @@
 {
   "service": {
-    "service": "servername",
+    "service": "pipelinedemo",
     "serviceObject": {
-      "name": "servername"
+      "name": "pipelinedemo"
     },
     "provider": {
       "name": "aws",
       "stage": "dev",
       "region": "us-east-1",
+      "versionFunctions": false,
       "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
-      "versionFunctions": true,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "The AWS CloudFormation template for this Serverless application",
@@ -94,8 +94,11 @@
           "ArtifactsBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-              "BucketName": "s3-stack-test-bucket-pipeline-demo-dev",
+              "BucketName": "pipelinedemo-s3-dev",
               "AccessControl": "BucketOwnerFullControl",
+              "VersioningConfiguration": {
+                "Status": "Enabled"
+              },
               "Tags": [
                 {
                   "Key": "process",
@@ -107,7 +110,7 @@
           "CodeBuildProjectBuild": {
             "Type": "AWS::CodeBuild::Project",
             "Properties": {
-              "Name": "servername-CodeBuildProjectBuild-dev",
+              "Name": "pipelinedemo-CodeBuildProjectBuild-dev",
               "ServiceRole": {
                 "Fn::ImportValue": "CodeBuildExcecutionRole"
               },
@@ -235,11 +238,11 @@
       }
     },
     "custom": {
-      "service": "servername",
-      "repo-owner": "repofake",
+      "service": "pipelinedemo",
+      "repo-owner": "franc",
       "github-aut-name": "devops-github-token",
       "github-aut-token": "test",
-      "bucket-deployment-name": "s3-stack-test-bucket-pipeline-demo-dev",
+      "bucket-deployment-name": "pipelinedemo-s3-dev",
       "codebuild-excecution-role": {
         "Fn::ImportValue": "CodeBuildExcecutionRole"
       },
@@ -282,8 +285,11 @@
         "ArtifactsBucket": {
           "Type": "AWS::S3::Bucket",
           "Properties": {
-            "BucketName": "s3-stack-test-bucket-pipeline-demo-dev",
+            "BucketName": "pipelinedemo-s3-dev",
             "AccessControl": "BucketOwnerFullControl",
+            "VersioningConfiguration": {
+              "Status": "Enabled"
+            },
             "Tags": [
               {
                 "Key": "process",
@@ -295,7 +301,7 @@
         "CodeBuildProjectBuild": {
           "Type": "AWS::CodeBuild::Project",
           "Properties": {
-            "Name": "servername-CodeBuildProjectBuild-dev",
+            "Name": "pipelinedemo-CodeBuildProjectBuild-dev",
             "ServiceRole": {
               "Fn::ImportValue": "CodeBuildExcecutionRole"
             },
@@ -332,7 +338,6 @@
       "service": {
         "$ref": "$[\"service\"][\"serviceObject\"]"
       },
-      "variablesResolutionMode": "20210219",
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
@@ -349,7 +354,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/servername/dev/1614710159650-2021-03-02T18:35:59.650Z",
+    "artifactDirectoryName": "serverless/pipelinedemo/dev/1614726494579-2021-03-02T23:08:14.579Z",
     "artifact": ""
   }
 }

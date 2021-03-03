@@ -19,19 +19,53 @@ Resources:
           - s3:GetObject
           - s3:GetObjectVersion
           Effect: Allow
-          Resource: '*'
+          Resource:
+           - arn:aws:s3:::${self:custom.bucket-deployment-name}*        
         - Action:
           - codecommit:GitPull
           Effect: Allow
           Resource: '*'
-        - Action:
-          - kms:GenerateDataKey*
-          - kms:Encrypt
-          - kms:Decrypt
-          Effect: Allow
-          Resource: '*'      
+#        - Action:
+#          - kms:GenerateDataKey*
+#          - kms:Encrypt
+#          - kms:Decrypt
+#          Effect: Allow
+#          Resource: '*'      
       Roles:
-      - !Ref CodeBuildExcecutionRole      
+      - !Ref CodeBuildExcecutionRole
+      - !Ref CodePipelineExcecutionRole
+
+  CodePipelineExcecutionPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: CodePipelineExcecutionPolicy
+      PolicyDocument:
+        Statement:
+        - Action:
+          - codecommit:CancelUploadArchive
+          - codecommit:GetBranch
+          - codecommit:GetCommit
+          - codecommit:GetUploadArchiveStatus
+          - codecommit:UploadArchive
+          Effect: Allow
+          Resource: '*'
+      Roles:
+      - !Ref CodePipelineExcecutionRole
+    
+  CodePipelineExcecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CodePipelineExcecutionRole 
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - codepipeline.amazonaws.com
+          Sid: 1
+      Path: /      
+    
   CodeBuildExcecutionRole:
     Type: AWS::IAM::Role    
    # Description: Creating service role in IAM for AWS CodeBuild

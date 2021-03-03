@@ -1,6 +1,5 @@
 ---
 service: ${self:custom.service}
-variablesResolutionMode: 20210219
 
 provider: 
   name: aws
@@ -18,5 +17,5 @@ custom:
 
 resources:
 - ${file(codepipeline-policies.yml)}
-- ${file(codepipeline-policies-out.yml)}  
+- ${file(codepipeline-policies-out.yml)}
 #- codepipeline-policies-out.yml

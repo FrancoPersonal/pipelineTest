@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "policies",
+    "service": "franc-policies",
     "serviceObject": {
-      "name": "policies"
+      "name": "franc-policies"
     },
     "provider": {
       "name": "aws",
@@ -105,20 +105,13 @@
                       "s3:GetObjectVersion"
                     ],
                     "Effect": "Allow",
-                    "Resource": "*"
+                    "Resource": [
+                      "arn:aws:s3:::franc-policies-s3-dev*"
+                    ]
                   },
                   {
                     "Action": [
                       "codecommit:GitPull"
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*"
-                  },
-                  {
-                    "Action": [
-                      "kms:GenerateDataKey*",
-                      "kms:Encrypt",
-                      "kms:Decrypt"
                     ],
                     "Effect": "Allow",
                     "Resource": "*"
@@ -128,8 +121,58 @@
               "Roles": [
                 {
                   "Ref": "CodeBuildExcecutionRole"
+                },
+                {
+                  "Ref": "CodePipelineExcecutionRole"
                 }
               ]
+            }
+          },
+          "CodePipelineExcecutionPolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+              "PolicyName": "CodePipelineExcecutionPolicy",
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": [
+                      "codecommit:CancelUploadArchive",
+                      "codecommit:GetBranch",
+                      "codecommit:GetCommit",
+                      "codecommit:GetUploadArchiveStatus",
+                      "codecommit:UploadArchive"
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*"
+                  }
+                ]
+              },
+              "Roles": [
+                {
+                  "Ref": "CodePipelineExcecutionRole"
+                }
+              ]
+            }
+          },
+          "CodePipelineExcecutionRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "RoleName": "CodePipelineExcecutionRole",
+              "AssumeRolePolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "sts:AssumeRole",
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "codepipeline.amazonaws.com"
+                      ]
+                    },
+                    "Sid": 1
+                  }
+                ]
+              },
+              "Path": "/"
             }
           },
           "CodeBuildExcecutionRole": {
@@ -259,11 +302,11 @@
       }
     },
     "custom": {
-      "service": "policies",
-      "repo-owner": "repofake",
+      "repo-owner": "franc",
+      "service": "franc-policies",
       "github-aut-name": "devops-github-token",
       "github-aut-token": "test",
-      "bucket-deployment-name": "s3-stack-test-bucket-pipeline-demo-dev",
+      "bucket-deployment-name": "franc-policies-s3-dev",
       "config": {
         "dev": {
           "accout-id": "${AWS::AccountId}"
@@ -306,20 +349,13 @@
                     "s3:GetObjectVersion"
                   ],
                   "Effect": "Allow",
-                  "Resource": "*"
+                  "Resource": [
+                    "arn:aws:s3:::franc-policies-s3-dev*"
+                  ]
                 },
                 {
                   "Action": [
                     "codecommit:GitPull"
-                  ],
-                  "Effect": "Allow",
-                  "Resource": "*"
-                },
-                {
-                  "Action": [
-                    "kms:GenerateDataKey*",
-                    "kms:Encrypt",
-                    "kms:Decrypt"
                   ],
                   "Effect": "Allow",
                   "Resource": "*"
@@ -329,8 +365,58 @@
             "Roles": [
               {
                 "Ref": "CodeBuildExcecutionRole"
+              },
+              {
+                "Ref": "CodePipelineExcecutionRole"
               }
             ]
+          }
+        },
+        "CodePipelineExcecutionPolicy": {
+          "Type": "AWS::IAM::Policy",
+          "Properties": {
+            "PolicyName": "CodePipelineExcecutionPolicy",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "codecommit:CancelUploadArchive",
+                    "codecommit:GetBranch",
+                    "codecommit:GetCommit",
+                    "codecommit:GetUploadArchiveStatus",
+                    "codecommit:UploadArchive"
+                  ],
+                  "Effect": "Allow",
+                  "Resource": "*"
+                }
+              ]
+            },
+            "Roles": [
+              {
+                "Ref": "CodePipelineExcecutionRole"
+              }
+            ]
+          }
+        },
+        "CodePipelineExcecutionRole": {
+          "Type": "AWS::IAM::Role",
+          "Properties": {
+            "RoleName": "CodePipelineExcecutionRole",
+            "AssumeRolePolicyDocument": {
+              "Statement": [
+                {
+                  "Action": "sts:AssumeRole",
+                  "Effect": "Allow",
+                  "Principal": {
+                    "Service": [
+                      "codepipeline.amazonaws.com"
+                    ]
+                  },
+                  "Sid": 1
+                }
+              ]
+            },
+            "Path": "/"
           }
         },
         "CodeBuildExcecutionRole": {
@@ -378,7 +464,6 @@
       "service": {
         "$ref": "$[\"service\"][\"serviceObject\"]"
       },
-      "variablesResolutionMode": "20210219",
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
@@ -395,7 +480,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/policies/dev/1614710662383-2021-03-02T18:44:22.383Z",
+    "artifactDirectoryName": "serverless/franc-policies/dev/1614732967453-2021-03-03T00:56:07.453Z",
     "artifact": ""
   }
 }

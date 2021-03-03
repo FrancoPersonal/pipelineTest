@@ -82,8 +82,11 @@
     "ArtifactsBucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
-        "BucketName": "s3-stack-test-bucket-pipeline-demo-dev",
+        "BucketName": "pipelinedemo-s3-dev",
         "AccessControl": "BucketOwnerFullControl",
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
         "Tags": [
           {
             "Key": "process",
@@ -95,7 +98,7 @@
     "CodeBuildProjectBuild": {
       "Type": "AWS::CodeBuild::Project",
       "Properties": {
-        "Name": "servername-CodeBuildProjectBuild-dev",
+        "Name": "pipelinedemo-CodeBuildProjectBuild-dev",
         "ServiceRole": {
           "Fn::ImportValue": "CodeBuildExcecutionRole"
         },

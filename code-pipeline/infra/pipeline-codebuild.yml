@@ -15,13 +15,9 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: aws/codebuild/nodejs:10.14.1
         PrivilegedMode: true
-#        EnvironmentVariables:
-#        - Name: STAGE
-#          Type: PLAINTEXT
-#          value: ${self:provider.stage}
       Source:
         Type: CODEPIPELINE
-        BuildSpec: buildspec.yml
+      BuildSpec: buildspec.yml
       TimeoutInMinutes: 30
       Tags:
       - Key: managed-by
