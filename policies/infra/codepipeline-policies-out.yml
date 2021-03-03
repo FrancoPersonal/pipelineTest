@@ -7,4 +7,11 @@ Outputs:
       - Arn
     Export:
       Name: CodeBuildExcecutionRole
-
+  CodePipelineExcecutionRole:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt: 
+      - CodePipelineExcecutionRole
+      - Arn
+    Export:
+      Name: CodePipelineExcecutionRole
