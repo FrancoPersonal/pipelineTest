@@ -1,0 +1,55 @@
+---
+#Stages:
+
+#Name: Beta
+#Actions:
+#  - Name: BetaAction
+#    InputArtifacts:
+#      - Name: SourceOutput
+#    ActionTypeId:
+#      Category: Deploy
+#      Owner: AWS
+#      Version: 1
+#      Provider: CodeDeploy
+#    Configuration:
+#      ApplicationName: DemoApplication
+#      DeploymentGroupName: DemoFleet
+#    RunOrder: 1
+
+#Name: build-dotnet
+#Actions:
+#- Name: build-stage
+#  ActionTypeId:
+#    Category: Build
+#    Owner: AWS
+#    Version: '1'
+#    Provider: CodeBuild    
+#  Configuration:
+#    ProjectName: 
+#      Ref: CodeBuildProjectBuild
+#    PrimarySource: source-output
+#  InputArtifacts:
+#  - Name: source-output
+#  OutputArtifacts:
+#  - Name: build-output
+#  RunOrder: 1
+
+
+
+Name: Build
+Actions:
+  - Name: BuildAction
+    InputArtifacts:
+      - Name: SourceOutput
+    ActionTypeId:
+      Category: Build
+      Owner: AWS
+      Version: 1
+      Provider: CodeBuild
+    Configuration:
+      ProjectName: 
+        Ref: CodeBuildProjectBuild
+      PrimarySource: SourceOutput    
+    OutputArtifacts:
+    - Name: BuildOutput
+    RunOrder: 1

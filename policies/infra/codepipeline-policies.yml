@@ -20,7 +20,8 @@ Resources:
           - s3:GetObjectVersion
           Effect: Allow
           Resource:
-           - arn:aws:s3:::${self:custom.bucket-deployment-name}*        
+           - arn:aws:s3:::${self:custom.bucket-deployment-name}
+           - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
         - Action:
           - codecommit:GitPull
           Effect: Allow
@@ -32,8 +33,7 @@ Resources:
 #          Effect: Allow
 #          Resource: '*'      
       Roles:
-      - !Ref CodeBuildExcecutionRole
-      - !Ref CodePipelineExcecutionRole
+      - !Ref CodeBuildExcecutionRole     
 
   CodePipelineExcecutionPolicy:
     Type: AWS::IAM::Policy
@@ -42,11 +42,28 @@ Resources:
       PolicyDocument:
         Statement:
         - Action:
+          - logs:CreateLogGroup
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          Effect: Allow
+          Resource: '*'
+        - Action:
+          - s3:PutObject
+          - s3:GetObject
+          - s3:GetObjectVersion
+          Effect: Allow
+          Resource:
+           - arn:aws:s3:::${self:custom.bucket-deployment-name}
+           - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
+        - Action:
           - codecommit:CancelUploadArchive
           - codecommit:GetBranch
           - codecommit:GetCommit
           - codecommit:GetUploadArchiveStatus
           - codecommit:UploadArchive
+          - codecommit:GitPull
+          - codebuild:StartBuild
+          - codebuild:BatchGetBuilds 
           Effect: Allow
           Resource: '*'
       Roles:

@@ -4,8 +4,8 @@ service: ${self:custom.service}
 provider: 
   name: aws
   stage: ${opt:env}
-  region: us-east-1
-  versionFunctions: false
+  #region: us-east-1
+  versionFunctions: false  
 
 plugins:
   - serverless-pseudo-parameters
@@ -19,5 +19,6 @@ resources:
 - ${file(resources-parameters.yml)}
 - ${file(pipeline-bucket.yml)}
 - ${file(pipeline-codebuild.yml)}
-# - ${file(pipeline-pipeline.yml)}
+- ${file(pipeline-pipeline.yml)}
+- ${file(pipeline-webhook.yml)}
 

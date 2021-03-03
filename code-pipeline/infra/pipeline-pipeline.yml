@@ -3,42 +3,51 @@
 Resources:
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
+    DependsOn:    
+    - ArtifactsBucket
+    - CodeBuildProjectBuild    
     Properties:
-      Name: ${self:custom.service}-Pipeline-${self:provider.stage}
-      RoleArn: 
-       -
       ArtifactStore:
-        Type: S3
         Location: 
-      Stages: 
-        - 
-          Name: name
-          Actions:
-            - actions
-          Blockers:
-            - blockers
-      RestartExecutionOnUpdate: true | false
-      DisableInboundStageTransitions: 
-#    Properties:
-#      Name: ${self:custom.service}-CodeBuildProjectBuild-${self:provider.stage}
-#      ServiceRole: arn:aws:iam::184890908123:role/CodeBuildRole  
-#      Artifacts: 
-#        Type: CODEPIPELINE
-#      BadgeEnabled: false
-#      Environment:
-#        Type: LINUX_CONTAINER
-#        ComputeType: BUILD_GENERAL1_SMALL
-#        Image: aws/codebuild/nodejs:10.14.1
-#        PrivilegedMode: true
-##        EnvironmentVariables:
-##        - Name: STAGE
-##          Type: PLAINTEXT
-##          value: ${self:provider.stage}
-#      Source:
-#        Type: CODEPIPELINE
-#        BuildSpec: buildspec.yml
-#      TimeoutInMinutes: 30
-#      Tags:
-#      - Key: managed-by
-#        Value: serverless
-#
+          Ref: ArtifactsBucket
+        Type: S3
+      Name: 
+        Ref: 'AWS::StackName'
+      #Name: ${self:custom.service}-pipeline-franco-demo-${self:provider.stage}
+      RoleArn:
+        Fn::ImportValue: CodePipelineExcecutionRole      
+      Stages:
+      - ${file(pipeline-pipeline-github.yml)}
+      - ${file(pipeline-pipeline-build.yml)}
+#      - Name: source
+#        Actions:
+#        - Name: soure-stage
+#          ActionTypeId:
+#            Category: Source
+#            Owner: ThirdParty
+#            Version: '1'
+#            Provider: 'Github'
+#          Configuration:
+#            Owner: ${self:custom.repo-owner}
+#            Repo: ${self:custom.repo-name}
+#            Branch: ${self:custom.config.${self:provider.stage}.branch}
+#            OAuthToken: ${self:custom.github-aut-token}
+#            PollForSourceChanges: 'false'
+#          OutputArtifacts:
+#          - Name: SourceCode
+#          RunOrder: 1
+#      - Name: build
+#        Actions:
+#        - Name: build-stage
+#          ActionTypeId:
+#            Category: Build
+#            Owner: AWS
+#            Provider: CodeBuild
+#            Version: '1'
+#          Configuration:
+#            ProjectName: ${self:custom.repo-name}
+#          InputArtifacts:
+#          - Name: SourceCode
+#          OutputArtifacts:
+#          - Name: BuildCode
+#          RunOrder: 2

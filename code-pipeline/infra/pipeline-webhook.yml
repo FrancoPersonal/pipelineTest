@@ -1,0 +1,19 @@
+---
+
+Resources:
+  Webhook: 
+    Type: 'AWS::CodePipeline::Webhook' 
+    Properties:
+      Name: MyWebhook-pipile-demo-franco-test
+      AuthenticationConfiguration: 
+        SecretToken: ${self:custom.github-aut-token}
+      Filters: 
+      - JsonPath: "$.ref" 
+        MatchEquals: refs/heads/{Branch} 
+      Authentication: GITHUB_HMAC 
+      TargetPipeline: 
+       Ref: Pipeline
+      TargetAction: SourceAction
+      TargetPipelineVersion: 
+        Fn::GetAtt: [Pipeline,Version]
+      RegisterWithThirdParty: 'true'

@@ -1,5 +1,14 @@
-service: pipelinedemo
-repo-owner: ${opt:repo-owner,'repofake'}
+boolean:
+   true: true
+   false: false
+remover:
+  buckets:
+  - ${self:custom.bucket-deployment-name} 
+  prompt: ${self:custom.boolean.${opt:s3-remover-prompt, 'true'}}
+service: ${self:custom.bussines-owner}-pipelinedemo
+repo-owner: ${opt:repo-owner,'ownerfake'}
+repo-name: ${opt:repo-name,'repofake'}
+bussines-owner: ${opt:bussines-owner,'franc'}
 github-aut-name: devops-github-token
 github-aut-token: ${opt:token-value,ssm:devops-github-token}
 bucket-deployment-name: ${self:custom.service}-s3-${self:provider.stage}
@@ -8,7 +17,16 @@ codebuild-excecution-role:
 config:
   dev:
     accout-id: ${AWS::AccountId}
+    branch: dev
+    json_path: '$.ref'
+    match_equals: refs/heads/{Banch}
   stg:
     accout-id: ${AWS::AccountId}
+    branch: stg
+    json_path: '$.ref'
+    match_equals: refs/heads/{Banch}
   prd:
     accout-id: ${AWS::AccountId}
+    branch: prd
+    json_path: '$.ref_type'
+    match_equals: tag

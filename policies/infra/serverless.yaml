@@ -18,4 +18,3 @@ custom:
 resources:
 - ${file(codepipeline-policies.yml)}
 - ${file(codepipeline-policies-out.yml)}
-#- codepipeline-policies-out.yml
