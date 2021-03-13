@@ -16,26 +16,6 @@
 #      DeploymentGroupName: DemoFleet
 #    RunOrder: 1
 
-#Name: build-dotnet
-#Actions:
-#- Name: build-stage
-#  ActionTypeId:
-#    Category: Build
-#    Owner: AWS
-#    Version: '1'
-#    Provider: CodeBuild    
-#  Configuration:
-#    ProjectName: 
-#      Ref: CodeBuildProjectBuild
-#    PrimarySource: source-output
-#  InputArtifacts:
-#  - Name: source-output
-#  OutputArtifacts:
-#  - Name: build-output
-#  RunOrder: 1
-
-
-
 Name: Build
 Actions:
   - Name: BuildAction

@@ -1,6 +1,6 @@
 remover:
-  buckets:  
-  - ${self:custom.bucket-deploymentself-name}
+  buckets:
+    - ${self:custom.bucket-deploymentself-name}
 repo-owner: ${opt:repo-owner,'repofake'}
 bussines-owner: ${opt:bussines-owner,'franc'}
 service: ${self:custom.bussines-owner}-policies

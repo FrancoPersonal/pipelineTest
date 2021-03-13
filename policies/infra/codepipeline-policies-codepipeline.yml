@@ -1,5 +1,4 @@
 ---
-
 Resources:
   CodePipelineExcecutionPolicy:
     Type: AWS::IAM::Policy
@@ -7,44 +6,44 @@ Resources:
       PolicyName: CodePipelineExcecutionPolicy
       PolicyDocument:
         Statement:
-        - Action:
-          - logs:CreateLogGroup
-          - logs:CreateLogStream
-          - logs:PutLogEvents
-          Effect: Allow
-          Resource: '*'
-        - Action:
-          - s3:PutObject
-          - s3:GetObject
-          - s3:GetObjectVersion
-          Effect: Allow
-          Resource:
-           - arn:aws:s3:::${self:custom.bucket-deployment-name}
-           - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
-        - Action:
-          - codecommit:CancelUploadArchive
-          - codecommit:GetBranch
-          - codecommit:GetCommit
-          - codecommit:GetUploadArchiveStatus
-          - codecommit:UploadArchive
-          - codecommit:GitPull
-          - codebuild:StartBuild
-          - codebuild:BatchGetBuilds 
-          Effect: Allow
-          Resource: '*'
+          - Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - s3:PutObject
+              - s3:GetObject
+              - s3:GetObjectVersion
+            Effect: Allow
+            Resource:
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
+          - Action:
+              - codecommit:CancelUploadArchive
+              - codecommit:GetBranch
+              - codecommit:GetCommit
+              - codecommit:GetUploadArchiveStatus
+              - codecommit:UploadArchive
+              - codecommit:GitPull
+              - codebuild:StartBuild
+              - codebuild:BatchGetBuilds
+            Effect: Allow
+            Resource: "*"
       Roles:
-      - Ref: CodePipelineExcecutionRole
-    
+        - Ref: CodePipelineExcecutionRole
+
   CodePipelineExcecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: CodePipelineExcecutionRole 
+      RoleName: CodePipelineExcecutionRole
       AssumeRolePolicyDocument:
         Statement:
-        - Action: sts:AssumeRole
-          Effect: Allow
-          Principal:
-            Service:
-            - codepipeline.amazonaws.com
-          Sid: 1
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Sid: 1
       Path: /

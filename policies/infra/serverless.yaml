@@ -1,7 +1,7 @@
 ---
 service: ${self:custom.service}
 
-provider: 
+provider:
   name: aws
   stage: ${opt:env}
   region: us-east-1
@@ -9,17 +9,17 @@ provider:
   deploymentBucket:
     name: ${self:custom.bucket-deploymentself-name}
     serverSideEncryption: AES256
-  
 
 plugins:
   - serverless-pseudo-parameters
   - serverless-s3-remover
   - serverless-deployment-bucket
 
-custom:
-  ${file(parameters.yml)}
+custom: ${file(parameters.yml)}
 
 resources:
-- ${file(codepipeline-policies-codebuild.yml)}
-- ${file(codepipeline-policies-codepipeline.yml)}
-- ${file(codepipeline-policies-out.yml)}
+  - ${file(codepipeline-policies-codebuild.yml)}
+  - ${file(codepipeline-policies-codepipeline.yml)}
+  - ${file(codepipeline-policies-codeployment.yml)}
+  - ${file(ec2-instance-profile.yml)}
+  - ${file(codepipeline-policies-out.yml)}

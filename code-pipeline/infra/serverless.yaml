@@ -19,10 +19,13 @@ custom:
   ${file(parameters.yml)}
 
 resources:
+- ${file(ec2-instance-sample.yml)}
 - ${file(pipeline-conditions.yml)}
 - ${file(resources-parameters.yml)}
 - ${file(pipeline-bucket.yml)}
 - ${file(pipeline-codebuild.yml)}
+# - ${file(pipeline-ec2-application.yml)}
+# - ${file(pipeline-ec2-deploymentgroup.yml)}
 - ${file(pipeline-pipeline.yml)}
 - ${file(pipeline-webhook.yml)}
 

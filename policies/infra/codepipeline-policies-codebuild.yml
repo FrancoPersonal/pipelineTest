@@ -1,50 +1,49 @@
 ---
-
 Resources:
   CodeBuildExcecutionPolicy:
-    Type: AWS::IAM::Policy   
+    Type: AWS::IAM::Policy
     Properties:
       PolicyName: CodeBuildExcecutionPolicy
       PolicyDocument:
         Statement:
-        - Action:
-          - logs:CreateLogGroup
-          - logs:CreateLogStream
-          - logs:PutLogEvents
-          Effect: Allow
-          Resource: '*'
-        - Action:
-          - s3:PutObject
-          - s3:GetObject
-          - s3:GetObjectVersion
-          Effect: Allow
-          Resource:
-           - arn:aws:s3:::${self:custom.bucket-deployment-name}
-           - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
-        - Action:
-          - codecommit:GitPull
-          Effect: Allow
-          Resource: '*'
-#        - Action:
-#          - kms:GenerateDataKey*
-#          - kms:Encrypt
-#          - kms:Decrypt
-#          Effect: Allow
-#          Resource: '*'      
+          - Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - s3:PutObject
+              - s3:GetObject
+              - s3:GetObjectVersion
+            Effect: Allow
+            Resource:
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
+          - Action:
+              - codecommit:GitPull
+            Effect: Allow
+            Resource: "*"
+      #        - Action:
+      #          - kms:GenerateDataKey*
+      #          - kms:Encrypt
+      #          - kms:Decrypt
+      #          Effect: Allow
+      #          Resource: '*'
       Roles:
-      - Ref: CodeBuildExcecutionRole     
-    
+        - Ref: CodeBuildExcecutionRole
+
   CodeBuildExcecutionRole:
-    Type: AWS::IAM::Role    
-   # Description: Creating service role in IAM for AWS CodeBuild
+    Type: AWS::IAM::Role
+    # Description: Creating service role in IAM for AWS CodeBuild
     Properties:
       RoleName: CodeBuildExcecutionRole
       AssumeRolePolicyDocument:
         Statement:
-        - Effect: Allow          
-          Principal:
-            Service: 
-            - codebuild.amazonaws.com
-          Action: 
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
       Path: /

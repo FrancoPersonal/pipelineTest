@@ -4,7 +4,7 @@ Resources:
   Webhook: 
     Type: 'AWS::CodePipeline::Webhook' 
     Properties:
-      Name: MyWebhook-pipile-demo-franco-test
+      Name: ${self:custom.pipeline-webhook}
       AuthenticationConfiguration: 
         SecretToken: ${self:custom.github-aut-token}
       Filters: 

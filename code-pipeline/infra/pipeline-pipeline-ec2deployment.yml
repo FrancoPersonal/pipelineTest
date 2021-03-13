@@ -1,0 +1,18 @@
+---
+Name: Source
+Actions:
+  - Name: SourceAction
+    ActionTypeId:
+      Category: Source
+      Owner: ThirdParty
+      Version: 1
+      Provider: GitHub
+    OutputArtifacts:
+      - Name: SourceOutput
+    Configuration:
+      Owner: ${self:custom.repo-owner}
+      Repo: ${self:custom.repo-name}
+      Branch: ${self:custom.config.${self:provider.stage}.branch}
+      OAuthToken: ${self:custom.github-aut-token}
+      PollForSourceChanges: false
+    RunOrder: 1
