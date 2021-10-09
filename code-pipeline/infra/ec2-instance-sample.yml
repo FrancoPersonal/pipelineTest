@@ -1,0 +1,25 @@
+---
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-1a
+      ImageId: ami-a4c7edb2
+      InstanceType: t2.micro
+      KeyName: "Ec2 linux"
+      SecurityGroupIds:
+        - Ref: InstanceSecurityGroup
+      Tags:
+      - Key: Name
+        Value: ServerInstanceName
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "Test Access group"
+      GroupDescription: "SSH Access"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp:  0.0.0.0/0

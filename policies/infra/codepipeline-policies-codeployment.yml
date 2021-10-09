@@ -1,0 +1,37 @@
+---
+Resources:
+  CodeDeployEC2ExcecutionPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: CodeDeployEC2ExcecutionPolicy
+      Roles:
+        - Ref: CodeDeployEC2ExcecutionRole
+      PolicyDocument:
+        Statement:
+          - Sid: EC2DeployInstances
+            Action:
+              - ec2:DescribeInstances
+              - ec2:DescribeInstanceStatus
+              - ec2:TerminateInstances
+            Effect: Allow
+            Resource: "*"
+          - Sid: DescribeDeployInstances
+            Action:
+              - tag:GetResources
+              - sns:Publish
+            Effect: Allow
+            Resource: "*"
+  CodeDeployEC2ExcecutionRole:
+    Type: AWS::IAM::Role
+    # Description: Creating service role in IAM for AWS CodeDeploy
+    Properties:
+      RoleName: CodeDeployEC2ExcecutionRole
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codedeploy.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /

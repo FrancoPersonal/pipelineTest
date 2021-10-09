@@ -1,0 +1,18 @@
+---
+Name: Build
+Actions:
+  - Name: BuildAction
+    InputArtifacts:
+      - Name: SourceOutput
+    ActionTypeId:
+      Category: Build
+      Owner: AWS
+      Version: 1
+      Provider: CodeBuild
+    Configuration:
+      ProjectName: 
+        Ref: CodeBuildProjectBuild
+      PrimarySource: SourceOutput    
+    OutputArtifacts:
+    - Name: BuildOutput
+    RunOrder: 1

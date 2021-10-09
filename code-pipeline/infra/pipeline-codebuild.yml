@@ -1,0 +1,24 @@
+---
+
+Resources:
+  CodeBuildProjectBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: ${self:custom.service}-CodeBuildProjectBuild-${self:provider.stage}
+      ServiceRole: 
+        Fn::ImportValue: CodeBuildExcecutionRole
+      Artifacts:
+        Type: CODEPIPELINE
+      BadgeEnabled: false
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/nodejs:10.14.1
+        PrivilegedMode: true
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yml
+      TimeoutInMinutes: 30
+      Tags:
+      - Key: managed-by
+        Value: serverless

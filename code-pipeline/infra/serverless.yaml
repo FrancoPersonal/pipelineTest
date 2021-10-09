@@ -1,0 +1,34 @@
+---
+service: ${self:custom.service}
+
+provider: 
+  name: aws
+  stage: ${opt:env}
+  #region: us-east-1
+  versionFunctions: false
+  deploymentBucket:
+    name: ${self:custom.bucket-deploymentself-name}
+    serverSideEncryption: AES256
+
+#Conditions:
+#  CreateProdResources: 
+#    Equals: [ ${opt:env} , prd]
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-pseudo-parameters
+  - serverless-s3-remover
+
+custom:
+  ${file(parameters.yml)}
+
+resources:
+# - ${file(ec2-instance-sample.yml)}
+- ${file(pipeline-conditions.yml)}
+- ${file(resources-parameters.yml)}
+- ${file(pipeline-bucket.yml)}
+- ${file(pipeline-codebuild.yml)}
+- ${file(pipeline-ec2-application.yml)}
+- ${file(pipeline-ec2-deploymentgroup.yml)}
+- ${file(pipeline-pipeline.yml)}
+- ${file(pipeline-webhook.yml)}
