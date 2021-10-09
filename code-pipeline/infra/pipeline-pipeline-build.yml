@@ -1,21 +1,4 @@
 ---
-#Stages:
-
-#Name: Beta
-#Actions:
-#  - Name: BetaAction
-#    InputArtifacts:
-#      - Name: SourceOutput
-#    ActionTypeId:
-#      Category: Deploy
-#      Owner: AWS
-#      Version: 1
-#      Provider: CodeDeploy
-#    Configuration:
-#      ApplicationName: DemoApplication
-#      DeploymentGroupName: DemoFleet
-#    RunOrder: 1
-
 Name: Build
 Actions:
   - Name: BuildAction

@@ -1,24 +1,24 @@
-Resources:
-  DeploymentGroup:
+Resources:  
+  EC2SampleDeploymentGroup:
     Type: AWS::CodeDeploy::DeploymentGroup
     DependsOn: 
     - CodeDeployApplicationEC2
     Properties:
-      ApplicationName: 
+      ApplicationName:
         Ref: CodeDeployApplicationEC2
-      Deployment: 
+      Deployment:
         Description: "Deploy in EC2"
-        IgnoreApplicationStopFailures: true
+        IgnoreApplicationStopFailures: 'true'
         Revision:
           RevisionType: S3
-          S3Location: 
+          S3Location:
             Bucket: 
-              Ref: ArtifactsBucket            
-            Key: ${self:custom.ec2-deployment.file}
+              Ref: ArtifactsBucket
             BundleType: Zip
-      Ec2TagFilters: 
-      - Key: ${self:custom.ec2-deployment.tag-key}
-        Value: ${self:custom.ec2-deployment.tag-value}
-        Type: "KEY_AND_VALUE"
-      ServiceRoleArn:
-        Fn::ImportValue: CodeDeployEC2ExcecutionRole  
+            Key: ${self:custom.ec2-deployment.file}
+      Ec2TagFilters:
+        - Key: ${self:custom.ec2-deployment.tag-key}
+          Value: ${self:custom.ec2-deployment.tag-value}
+          Type: KEY_AND_VALUE
+      ServiceRoleArn: 
+        Fn::ImportValue: CodeDeployEC2ExcecutionRole       

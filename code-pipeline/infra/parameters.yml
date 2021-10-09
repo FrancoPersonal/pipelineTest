@@ -10,8 +10,8 @@ remover:
 #  prompt: ${self:custom.boolean.${opt:s3-remover-prompt, 'true'}}
 ec2-deployment:
   application-name: ${self:custom.bussines-owner}-AppDemoEC2
-  file: aplicationFile.zip
-  tag-key: name      
+  file: 'aplicationFile.zip'
+  tag-key: Name
   tag-value: ServerInstanceName
 onpremise:
   application-name: ${self:custom.bussines-owner}-AppDemoOnPremise

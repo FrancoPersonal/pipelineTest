@@ -1,18 +1,17 @@
 ---
-Name: Source
+Name: Beta
 Actions:
-  - Name: SourceAction
+  - Name: BetaAction
+    InputArtifacts:
+      - Name: BuildOutput
     ActionTypeId:
-      Category: Source
-      Owner: ThirdParty
+      Category: Deploy
+      Owner: AWS
       Version: 1
-      Provider: GitHub
-    OutputArtifacts:
-      - Name: SourceOutput
+      Provider: CodeDeploy
     Configuration:
-      Owner: ${self:custom.repo-owner}
-      Repo: ${self:custom.repo-name}
-      Branch: ${self:custom.config.${self:provider.stage}.branch}
-      OAuthToken: ${self:custom.github-aut-token}
-      PollForSourceChanges: false
+      ApplicationName: 
+        Ref: CodeDeployApplicationEC2
+      DeploymentGroupName:
+        Ref: EC2SampleDeploymentGroup
     RunOrder: 1
