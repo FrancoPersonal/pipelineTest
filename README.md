@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 # pipelineTest
-=======
 # ServerlessSamples
->>>>>>> 7c2d4b6 (Initial commit)
  
 # Prerequisites Access Token
 https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html
