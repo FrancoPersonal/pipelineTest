@@ -1,0 +1,34 @@
+Outputs:
+  CodeBuildExcecutionRole:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt:
+        - CodeBuildExcecutionRole
+        - Arn
+    Export:
+      Name: CodeBuildExcecutionRole
+  CodePipelineExcecutionRole:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt:
+        - CodePipelineExcecutionRole
+        - Arn
+    Export:
+      Name: CodePipelineExcecutionRole
+  CodeDeployEC2ExcecutionRole:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt:
+        - CodeDeployEC2ExcecutionRole
+        - Arn
+    Export:
+      Name: CodeDeployEC2ExcecutionRole
+
+  EC2InstanceRoleExample:
+    Description: CodeBuild Excecution Role
+    Value:
+      Fn::GetAtt:
+        - EC2InstanceRoleExample
+        - Arn
+    Export:
+      Name: EC2InstanceRoleExample

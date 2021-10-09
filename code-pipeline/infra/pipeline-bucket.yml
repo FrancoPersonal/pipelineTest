@@ -1,0 +1,29 @@
+---
+
+Resources:
+  ArtifactsBucket:
+   Type: AWS::S3::Bucket
+   Properties:
+     BucketName: ${self:custom.bucket-deployment-name} 
+     AccessControl: BucketOwnerFullControl
+     Tags:
+       - Key: process
+         Value: pipeline-bucket
+     BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+     PublicAccessBlockConfiguration:
+       BlockPublicAcls: true
+       IgnorePublicAcls: true
+       BlockPublicPolicy: true
+       RestrictPublicBuckets: true
+
+# ArtifactS3BucketPolicy:
+#   Type: AWS::S3::BucketPolicy
+#   Properties:
+#     Bucket:
+#       Ref: ArtifactsBucket
+#     PolicyDocument:
+#       Version: '2012-10-17'
+

@@ -1,0 +1,20 @@
+---
+
+Resources:
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    DependsOn:    
+    - ArtifactsBucket
+    - CodeBuildProjectBuild    
+    Properties:
+      ArtifactStore:
+        Location: 
+          Ref: ArtifactsBucket
+        Type: S3
+      Name: 
+        Ref: 'AWS::StackName'
+      RoleArn:
+        Fn::ImportValue: CodePipelineExcecutionRole      
+      Stages:
+      - ${file(pipeline-pipeline-github.yml)}
+      - ${file(pipeline-pipeline-build.yml)}

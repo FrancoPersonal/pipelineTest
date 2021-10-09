@@ -1,0 +1,17 @@
+remover:
+  buckets:
+    - ${self:custom.bucket-deploymentself-name}
+repo-owner: ${opt:repo-owner,'repofake'}
+bussines-owner: ${opt:bussines-owner,'franc'}
+service: ${self:custom.bussines-owner}-policies
+github-aut-name: devops-github-token
+github-aut-token: ${opt:token-value,ssm:devops-github-token}
+bucket-deployment-name: ${self:custom.bussines-owner}-pipelinedemo-s3-${self:provider.stage}
+bucket-deploymentself-name: ${self:custom.service}-deploymentbucket-${self:provider.stage}
+config:
+  dev:
+    accout-id: ${AWS::AccountId}
+  stg:
+    accout-id: ${AWS::AccountId}
+  prd:
+    accout-id: ${AWS::AccountId}

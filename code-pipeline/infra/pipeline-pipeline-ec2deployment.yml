@@ -1,0 +1,17 @@
+---
+Name: Beta
+Actions:
+  - Name: BetaAction
+    InputArtifacts:
+      - Name: BuildOutput
+    ActionTypeId:
+      Category: Deploy
+      Owner: AWS
+      Version: 1
+      Provider: CodeDeploy
+    Configuration:
+      ApplicationName: 
+        Ref: CodeDeployApplicationEC2
+      DeploymentGroupName:
+        Ref: EC2SampleDeploymentGroup
+    RunOrder: 1

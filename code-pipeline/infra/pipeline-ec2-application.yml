@@ -1,0 +1,6 @@
+Resources:
+  CodeDeployApplicationEC2:
+   Type: AWS::CodeDeploy::Application
+   Properties: 
+     ApplicationName: ${self:custom.ec2-deployment.application-name} 
+     ComputePlatform: Server

@@ -1,0 +1,42 @@
+---
+Resources:
+  EC2InstanceRoleExample:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EC2InstanceRoleExample
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+
+  EC2InstanceRolePolicyExample:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EC2InstanceRolePolicyExample
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action:
+              - s3:GetObject
+              - s3:GetObjectVersion
+            Effect: Allow
+            Resource:
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}
+              - arn:aws:s3:::${self:custom.bucket-deployment-name}/*
+      Roles:
+        - Ref: EC2InstanceRoleExample
+
+  EC2InstanceProfileExample:
+    DependsOn: EC2InstanceRoleExample
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+        - Ref: EC2InstanceRoleExample
+      InstanceProfileName: EC2InstanceProfileExample
